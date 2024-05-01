@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{9b316efd-19ea-463a-8189-f5c75432533d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\tool">
+      <UniqueIdentifier>{2e91c768-a2f7-4710-8486-8cc7ddd3df4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\tool">
+      <UniqueIdentifier>{9178032b-72af-44e3-bf52-c2b932c77dc8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="writebuffer.h">
+      <Filter>头文件\tool</Filter>
+    </ClInclude>
+    <ClInclude Include="filetool.h">
+      <Filter>头文件\tool</Filter>
+    </ClInclude>
+    <ClInclude Include="gui_console.hpp">
+      <Filter>头文件\tool</Filter>
+    </ClInclude>
+    <ClInclude Include="readbuffer.h">
+      <Filter>头文件\tool</Filter>
+    </ClInclude>
+    <ClInclude Include="strtool.h">
+      <Filter>头文件\tool</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gui_console.cpp">
+      <Filter>源文件\tool</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
