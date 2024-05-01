@@ -116,6 +116,7 @@ namespace yks_scripter {
 					);
 					writebuffer.fmtwrite(u8"¡ï¡ò  %03d  ¡ò¡ï//%s\n", count, text.c_str());
 					writebuffer.fmtwrite(u8"¡ï¡ò  %03d  ¡ò¡ï%s\n\n", count, text.c_str());
+					count++;
 				}
 				else if (!strcmp(name, "StrOut")) {
 					const data_ele& cstr = ele_arr[code_arr[++i]];
@@ -128,8 +129,8 @@ namespace yks_scripter {
 					);
 					writebuffer.fmtwrite(u8"¡ï¡ò  %03d  ¡ò¡ï//%s\n", count, text.c_str());
 					writebuffer.fmtwrite(u8"¡ï¡ò  %03d  ¡ò¡ï%s\n\n", count, text.c_str());
+					count++;
 				}
-				count++;
 			}
 			return writebuffer.save(out);
 		}
