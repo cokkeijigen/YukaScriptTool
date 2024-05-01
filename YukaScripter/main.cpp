@@ -164,7 +164,7 @@ namespace yks_scripter {
 							((char*)data_ptr) + cstr.data2, 932, CP_UTF8
 						);
 						writebuffer.fmtwrite(
-							"#0x%04X:0x%02X:StrOutNWC: \n",
+							"#0x%04X:0x%02X:StrOutNWC\n",
 							int(header.data_offset + cstr.data2), int(i)
 						);
 						writebuffer.fmtwrite(u8"★◎  %03d  ◎★//%s\n", count, text.c_str());
@@ -177,7 +177,7 @@ namespace yks_scripter {
 							((char*)data_ptr) + cstr.data2, 932, CP_UTF8
 						);
 						writebuffer.fmtwrite(
-							"#0x%04X:0x%02X:StrOut: \n",
+							"#0x%04X:0x%02X:StrOut\n",
 							int(header.data_offset + cstr.data2), int(i)
 						);
 						writebuffer.fmtwrite(u8"★◎  %03d  ◎★//%s\n", count, text.c_str());
@@ -189,7 +189,7 @@ namespace yks_scripter {
 					if (char* str = ((char*)data_ptr) + ele.data2; *str & char(128)) {
 						std::string text = strtool::converts(str, 932, CP_UTF8);
 						writebuffer.fmtwrite(
-							"#0x%04X:0x%02X: \n",
+							"#0x%04X:0x%02X\n",
 							int(header.data_offset + ele.data2), int(i)
 						);
 						writebuffer.fmtwrite(u8"★◎  %03d  ◎★//%s\n", count, text.c_str());
