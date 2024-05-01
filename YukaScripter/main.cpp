@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <filesystem>
 #include <filetool.h>
@@ -6,8 +6,8 @@
 #include <strtool.h>
 #include <gui_console.hpp>
 #include <writebuffer.h>
-#define TestPath "D:\\Galgame\\Çç¤ì¥Ï¥ì¤Ï©`¤ì¤à\\yks\\story\\ep00\\"
-#define TestPath2 "D:\\Galgame\\Çç¤ì¥Ï¥ì¤Ï©`¤ì¤à\\yks\\"
+#define TestPath "D:\\Galgame\\æ™´ã‚Œãƒãƒ¬ã¯ãƒ¼ã‚Œã‚€\\yks\\story\\ep00\\"
+#define TestPath2 "D:\\Galgame\\æ™´ã‚Œãƒãƒ¬ã¯ãƒ¼ã‚Œã‚€\\yks\\"
 
 namespace fsys {
 
@@ -114,8 +114,8 @@ namespace yks_scripter {
 						"#0x%04X:0x%02X:StrOutNWC: \n", 
 						int(header.data_offset + cstr.data2), int(i)
 					);
-					writebuffer.fmtwrite(u8"¡ï¡ò  %03d  ¡ò¡ï//%s\n", count, text.c_str());
-					writebuffer.fmtwrite(u8"¡ï¡ò  %03d  ¡ò¡ï%s\n\n", count, text.c_str());
+					writebuffer.fmtwrite(u8"â˜…â—  %03d  â—â˜…//%s\n", count, text.c_str());
+					writebuffer.fmtwrite(u8"â˜…â—  %03d  â—â˜…%s\n\n", count, text.c_str());
 					count++;
 				}
 				else if (!strcmp(name, "StrOut")) {
@@ -127,8 +127,8 @@ namespace yks_scripter {
 						"#0x%04X:0x%02X:StrOut: \n",
 						int(header.data_offset + cstr.data2), int(i)
 					);
-					writebuffer.fmtwrite(u8"¡ï¡ò  %03d  ¡ò¡ï//%s\n", count, text.c_str());
-					writebuffer.fmtwrite(u8"¡ï¡ò  %03d  ¡ò¡ï%s\n\n", count, text.c_str());
+					writebuffer.fmtwrite(u8"â˜…â—  %03d  â—â˜…//%s\n", count, text.c_str());
+					writebuffer.fmtwrite(u8"â˜…â—  %03d  â—â˜…%s\n\n", count, text.c_str());
 					count++;
 				}
 			}
