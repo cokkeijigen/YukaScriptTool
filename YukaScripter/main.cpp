@@ -88,9 +88,62 @@ namespace yks_scripter {
 		};
 	}
 
+	static void test_out_info(const char* in) {
+		if (file::data data = file::tool::read(in); !data.empty()) {
+			yks_header& header = *(yks_header*)data.buffer;
+			int32_t* code_arr = (int32_t*)(data.buffer + header.code_offset);
+			data_ele* ele_arr = (data_ele*)(data.buffer + header.index_offset);
+			const void* data_ptr = data.buffer + header.data_offset;
+			for (size_t i = 0, count = 1; i < header.code_count; i++) {
+				const data_ele& ele = ele_arr[code_arr[i]];
+				switch (ele.type)
+				{
+
+				case TYPE_FUNC:{ // data1: str
+					char* fn = ((char*)data_ptr) + ele.data1;
+					int32_t& count = code_arr[++i];
+					gui::console::writes(i, " ", fn, " count: ", count, "\n");
+					break;
+				}
+				case TYPE_CTRL:{
+					gui::console::writes(i, " TYPE_CTRL", "\n");
+					break;
+				}
+				case TYPE_CINT:{
+					gui::console::writes(i, " TYPE_CINT", "\n");
+
+					break;
+				}
+				case TYPE_CSTR:{
+					char* str = ((char*)data_ptr) + ele.data2;
+					gui::console::sjis::fmtwrite("%d TYPE_CSTR: %s\n", i, str);
+					break;
+				}
+				case TYPE_VINT:{
+					gui::console::writes(i, " TYPE_VINT", "\n");
+
+					break;
+				}
+				case TYPE_VSTR:{
+					gui::console::writes(i, " TYPE_VSTR", "\n");
+
+					break;
+				}
+				case TYPE_VTMP:{
+					gui::console::writes(i, " TYPE_VTMP", "\n");
+
+					break;
+				}
+				default:
+					break;
+				}
+			}
+		}
+	}
+
 	static file::writebuffer writebuffer;
 
-	bool export_text(const char* in, const char* out) {
+	static bool export_text(const char* in, const char* out) {
 		if (file::data data = file::tool::read(in); data.empty()) {
 			return false; 
 		}
@@ -102,34 +155,47 @@ namespace yks_scripter {
 			const void* data_ptr = data.buffer + header.data_offset;
 			for (size_t i = 0, count = 1; i < header.code_count; i++) {
 				const data_ele& ele = ele_arr[code_arr[i]];
-				if (ele.type != TYPE_FUNC) continue;
-				i++;
-				char* name = ((char*)data_ptr) + ele.data1;
-				if (!strcmp(name, "StrOutNWC")) {
-					const data_ele& cstr = ele_arr[code_arr[i += 2]];
-					std::string text = strtool::converts(
-						((char*)data_ptr) + cstr.data2, 932, CP_UTF8
-					);
-					writebuffer.fmtwrite(
-						"#0x%04X:0x%02X:StrOutNWC: \n", 
-						int(header.data_offset + cstr.data2), int(i)
-					);
-					writebuffer.fmtwrite(u8"★◎  %03d  ◎★//%s\n", count, text.c_str());
-					writebuffer.fmtwrite(u8"★◎  %03d  ◎★%s\n\n", count, text.c_str());
-					count++;
+				if (ele.type == TYPE_FUNC) {
+					i++;
+					char* name = ((char*)data_ptr) + ele.data1;
+					if (!strcmp(name, "StrOutNWC")) {
+						const data_ele& cstr = ele_arr[code_arr[i += 2]];
+						std::string text = strtool::converts(
+							((char*)data_ptr) + cstr.data2, 932, CP_UTF8
+						);
+						writebuffer.fmtwrite(
+							"#0x%04X:0x%02X:StrOutNWC: \n",
+							int(header.data_offset + cstr.data2), int(i)
+						);
+						writebuffer.fmtwrite(u8"★◎  %03d  ◎★//%s\n", count, text.c_str());
+						writebuffer.fmtwrite(u8"★◎  %03d  ◎★%s\n\n", count, text.c_str());
+						count++;
+					}
+					else if (!strcmp(name, "StrOut")) {
+						const data_ele& cstr = ele_arr[code_arr[++i]];
+						std::string text = strtool::converts(
+							((char*)data_ptr) + cstr.data2, 932, CP_UTF8
+						);
+						writebuffer.fmtwrite(
+							"#0x%04X:0x%02X:StrOut: \n",
+							int(header.data_offset + cstr.data2), int(i)
+						);
+						writebuffer.fmtwrite(u8"★◎  %03d  ◎★//%s\n", count, text.c_str());
+						writebuffer.fmtwrite(u8"★◎  %03d  ◎★%s\n\n", count, text.c_str());
+						count++;
+					}
 				}
-				else if (!strcmp(name, "StrOut")) {
-					const data_ele& cstr = ele_arr[code_arr[++i]];
-					std::string text = strtool::converts(
-						((char*)data_ptr) + cstr.data2, 932, CP_UTF8
-					);
-					writebuffer.fmtwrite(
-						"#0x%04X:0x%02X:StrOut: \n",
-						int(header.data_offset + cstr.data2), int(i)
-					);
-					writebuffer.fmtwrite(u8"★◎  %03d  ◎★//%s\n", count, text.c_str());
-					writebuffer.fmtwrite(u8"★◎  %03d  ◎★%s\n\n", count, text.c_str());
-					count++;
+				else if (ele.type == TYPE_CSTR) {
+					if (char* str = ((char*)data_ptr) + ele.data2; *str & char(128)) {
+						std::string text = strtool::converts(str, 932, CP_UTF8);
+						writebuffer.fmtwrite(
+							"#0x%04X:0x%02X: \n",
+							int(header.data_offset + ele.data2), int(i)
+						);
+						writebuffer.fmtwrite(u8"★◎  %03d  ◎★//%s\n", count, text.c_str());
+						writebuffer.fmtwrite(u8"★◎  %03d  ◎★%s\n\n", count, text.c_str());
+						count++;
+					}
 				}
 			}
 			return writebuffer.save(out);
@@ -168,6 +234,7 @@ int main(int argc, char** argv) {
 		path.substr(0, path.find_last_of("\\"))
 	);
 	yks_scripter::exports_as_multifile(TestPath2, path);
+	//yks_scripter::test_out_info(TestPath2 "\\common\\ep01.yks");
 	
 	gui::console::pause();
 
